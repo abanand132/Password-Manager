@@ -1,4 +1,4 @@
-# Password-Manager
+# Password-Manager(1.0)
 Password Manager is a application that helps you to manage your passwords efficiently by saving it securely in your device's storage and you can search your password whenever you need them. People rely on third party services to save their password but not anymore. It is completely offline(except 1-2 features that requires internet connection). You just need an python compiler in your computer to run this application. It is working properly in windows. 
 ##
 ![home_page_password_new](https://user-images.githubusercontent.com/76703822/174790721-9e513cae-9a8a-4bc7-a5ae-048d0eb062f7.jpg)
