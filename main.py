@@ -67,7 +67,7 @@ try:
     if len(data['email']) == 0:
         notify = Label(text="Please Create your account first by clicking on 'Create Account' button!", bg='yellow')
         notify.config(font=('arial', 13), foreground='black')
-        notify.grid(row=13, column=2)
+        notify.grid(row=14, column=2)
 except:
     messagebox.showwarning(title='Failed', message="Unknown Error Occurred! Contact to Developer")
 
