@@ -8,11 +8,11 @@ k = 0
 
 
 # Decrypting data available after successful search
-def decryption(website, email, password):
+def decryption(website_data, email, password):
     with open('data_files.json', 'r') as d:
         data = json.load(d)
     try:
-        if data[website.get()]["status"] == "encrypted":
+        if data[website_data]["status"] == "encrypted":
             global k
             k += 1
             if k <= 1:  # to handle the error when data is already decrypted and user again press decrypt button. So first
@@ -28,6 +28,7 @@ def decryption(website, email, password):
                     email.insert(0, decrypted_email_data)
                     password.insert(0, decrypted_password_data)
                     pyperclip.copy(password.get())
+                    # k = 0
                 else:
                     messagebox.showinfo(message="Enough Data is not Available")
             else:
@@ -39,11 +40,11 @@ def decryption(website, email, password):
     except:
         messagebox.showwarning(title='Failed', message="Unknown Error Occurred! Inform to Developer")
 
-def delete_data_func(website):
+def delete_data_func(website_data):
     try:
         if messagebox.askyesno(title="Delete", message="Are you want to delete this password ?"
                                                     "\n\nNote : Remember this process can't be reversed"):
-            key = website.get()
+            key = website_data
             with open("data_files.json", 'r') as file:
                 data_file = json.load(file)
             data_file.pop(key)
@@ -60,19 +61,21 @@ def delete_data_func(website):
 
 
 def search_func(pin_entry, pin_value, website, decrypt, window, search_win, delete_data_btn):
+    website_data = website.get().lower()
+
     # Sending to decryption function present in search_page.py
+
     def decrypt_func():
-        decryption(website, email_search, password_search)
+        decryption(website_data, email_search, password_search)
 
     def delete_data():
-        delete_data_func(website)
-    if pin_entry.get() == pin_value and len(website.get()) != 0:
+        delete_data_func(website_data)
+    if pin_entry.get() == pin_value and len(website_data) != 0:
 
         try:  # reading json file for searching purpose. searching logic below
             with open('data_files.json', 'r') as d:
                 data = json.load(d)
 
-            website_data = website.get()
             decrypt.config(text="Decrypt", command=decrypt_func, borderwidth=2)
             delete_data_btn.config(text="Delete Password", command=delete_data, borderwidth=2)
 
