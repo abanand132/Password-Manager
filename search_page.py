@@ -4,21 +4,20 @@ import decrypt_message
 import pyperclip
 import advance_search
 import multiple_result
-k = 0
+
 
 
 # Decrypting data available after successful search
-def decryption(website_data, email, password):
+def decryption(website, email, password):
     with open('data_files.json', 'r') as d:
         data = json.load(d)
+    website_data = website.get().lower()
     try:
-        if data[website_data]["status"] == "encrypted":
-            global k
-            k += 1
-            if k <= 1:
-                text1 = email.get()
-                text2 = password.get()
-                if len(text1) != 0 and len(text2) != 0:
+        text1 = email.get()
+        text2 = password.get()
+        if len(text1) != 0 and len(text2) != 0:
+            try:
+                if data[website_data]["status"] == "encrypted":
                     decrypted_email_data = decrypt_message.decrypt(text1)
                     decrypted_password_data = decrypt_message.decrypt(text2)
                     email.delete(0, END)
@@ -28,17 +27,19 @@ def decryption(website_data, email, password):
                     pyperclip.copy(password.get())
                     # k = 0
                 else:
-                    messagebox.showinfo(message="Enough Data is not Available")
-            else:
+                    messagebox.showwarning(title="Request failed 🛑", message="These data are not encrypted.")
+            except ValueError:
                 messagebox.showwarning(title="Request failed 🛑", message="Data is already decrypted")
         else:
-            messagebox.showwarning(title="Request failed 🛑", message="These data are not encrypted.")
+            messagebox.showinfo(message="Enough Data is not Available")
+
     except KeyError:
         messagebox.showwarning(title='Failed', message='No such data available to decrypt')
     except:
         messagebox.showwarning(title='Failed', message="Unknown Error Occurred! Inform to Developer")
 
-def delete_data_func(website_data):
+def delete_data_func(website):
+    website_data = website.get().lower()
     try:
         if messagebox.askyesno(title="Delete", message="Are you want to delete this password ?"
                                                     "\n\nNote : Remember this process can't be reversed"):
@@ -59,15 +60,17 @@ def delete_data_func(website_data):
 
 
 def search_func(pin_entry, pin_value, website, decrypt, window, search_win, delete_data_btn):
-    website_data = website.get().lower()
+
 
     # Sending to decryption function present in search_page.py
 
     def decrypt_func():
-        decryption(website_data, email_search, password_search)
+        decryption(website, email_search, password_search)
 
     def delete_data():
-        delete_data_func(website_data)
+        delete_data_func(website)
+
+    website_data = website.get().lower()
     if pin_entry.get() == pin_value and len(website_data) != 0:
 
         try:  # reading json file for searching purpose. searching logic below
@@ -109,14 +112,16 @@ def search_func(pin_entry, pin_value, website, decrypt, window, search_win, dele
                 partial_matched_key = advance_search.advanced_search_func(website_data)
                 if partial_matched_key is None:
                     messagebox.showwarning(title="Search Result", message="No such data found")
+
                 elif type(partial_matched_key) == list:
                     if messagebox.askyesno(title="Search Result",
                                            message="We have found multiple results which may satisfy your search.\n\n"
                                                    "Do you want to see result ?"):
                         multiple_result.multiple_result_func(window, partial_matched_key)
+
                 else:
                     if messagebox.askyesno(title="Search Result", message="Exact keyword not found. Do you want to see"
-                                                                          " mostly matched result ?"):
+                                                                          " closest matched result ?"):
                         website.delete(0, END)
                         website.insert(0, partial_matched_key)
                         email_search.insert(0, data[partial_matched_key]['email'])
