@@ -67,7 +67,7 @@ try:
     if len(data['email']) == 0:
         notify = Label(text="Please Create your account first by clicking on 'Create Account' button!", bg='yellow')
         notify.config(font=('arial', 13), foreground='black')
-        notify.grid(row=14, column=2)
+        notify.grid(row=13, column=2)
 except:
     messagebox.showwarning(title='Failed', message="Unknown Error Occurred! Contact to Developer")
 
@@ -83,17 +83,25 @@ label_strength = Label(text="", bg="white")
 label_strength.grid(row=5, column=3)
 
 #-------------------- Adding data to files------#
-def add_data_into_file():
-    if len(data['email']) > 0:
-        saving_data.add_data_into_file(website, email, password, label_strength)
-    else:
-        messagebox.showwarning(title="Create Account", message="First create a account!")
 
-def add_data_into_file_encrypt():
-    if len(data['email']) > 0:
-        saving_data.add_data_into_file_encrypt(website, email, password, label_strength)
+def add_data_into_file():
+    if website.get().lower() not in data1.keys():
+        if len(data['email']) > 0:
+            saving_data.add_data_into_file(website, email, password, label_strength)
+        else:
+            messagebox.showwarning(title="Create Account", message="First create a account!")
     else:
-        messagebox.showwarning(title="Create Account", message="First create a account!")
+        messagebox.showwarning(title='Failed', message="Password with same website name is present in the database\n\n"
+                                                       "Choose slight different website name to save this data")
+def add_data_into_file_encrypt():
+    if website.get().lower() not in data1.keys():
+        if len(data['email']) > 0:
+            saving_data.add_data_into_file_encrypt(website, email, password, label_strength)
+        else:
+            messagebox.showwarning(title="Create Account", message="First create a account!")
+    else:
+        messagebox.showwarning(title='Failed', message="Password with same website name is present in the database\n\n"
+                                                       "Choose slight different website name to save this data")
 
 # Checkbutton for encryption (encryption checkbutton just below) ------------
 def hello():
@@ -268,6 +276,8 @@ def search_option_enabling():
             create_new_acc_search.grid(row=8, column=1)
 
             def clear_options_func():
+                # We can clear the content of Entry widget by defining a method delete(0, END) which aims
+                # to clear all the content in the range.
                 search_win.destroy()
                 search_option_enabling()
 
@@ -348,6 +358,8 @@ search.grid(row=0, column=3)
 
 
 def clear_options():
+    # We can clear the content of Entry widget by defining a method delete(0, END) which aims
+    # to clear all the content in the range.
     email.delete(0, END)
     website.delete(0, END)
     password.delete(0, END)
