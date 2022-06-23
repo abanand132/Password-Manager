@@ -15,9 +15,7 @@ def decryption(website_data, email, password):
         if data[website_data]["status"] == "encrypted":
             global k
             k += 1
-            if k <= 1:  # to handle the error when data is already decrypted and user again press decrypt button. So first
-                # time when user decrypt the data, k => 1 and when again user press decrypt button then k => 2 and
-                # this time it'll show pop up warning and not throw an error.
+            if k <= 1:
                 text1 = email.get()
                 text2 = password.get()
                 if len(text1) != 0 and len(text2) != 0:
@@ -134,7 +132,7 @@ def search_func(pin_entry, pin_value, website, decrypt, window, search_win, dele
     elif pin_entry.get() != pin_value and len(pin_entry.get()) > 0:
         messagebox.showwarning(title="Wrong PIN", message="You have entered wrong PIN")
 
-    elif pin_entry.get() == pin_value and len(website.get()) == 0:
+    elif pin_entry.get() == pin_value and len(website_data) == 0:
         messagebox.showwarning(title="Search Failed", message="You can't search with empty website field")
 
     else:
