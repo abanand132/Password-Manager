@@ -85,7 +85,12 @@ label_strength.grid(row=5, column=3)
 #-------------------- Adding data to files------#
 
 def add_data_into_file():
-    if website.get().lower() not in data1.keys():
+    try:
+        with open("data_files.json", 'r') as dat1:
+            dat1 = json.load(dat1)
+    except:
+        pass
+    if website.get().lower() not in dat1.keys():
         if len(data['email']) > 0:
             saving_data.add_data_into_file(website, email, password, label_strength)
         else:
@@ -94,7 +99,12 @@ def add_data_into_file():
         messagebox.showwarning(title='Failed', message="Password with same website name is present in the database\n\n"
                                                        "Choose slight different website name to save this data")
 def add_data_into_file_encrypt():
-    if website.get().lower() not in data1.keys():
+    try:
+        with open("data_files.json", 'r') as dat1:
+            dat1 = json.load(dat1)
+    except:
+        pass
+    if website.get().lower() not in dat1.keys():
         if len(data['email']) > 0:
             saving_data.add_data_into_file_encrypt(website, email, password, label_strength)
         else:
