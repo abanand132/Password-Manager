@@ -14,7 +14,7 @@ def strength(password_data, label_strength):
 
 
 def add_data_into_file(website, email, password, label_strength):
-    website_data = website.get()
+    website_data = website.get().lower()
     email_data = email.get()
     password_data = password.get()
     pyperclip.copy(password_data)
@@ -49,7 +49,7 @@ def add_data_into_file(website, email, password, label_strength):
 
 
 def add_data_into_file_encrypt(website, email, password, label_strength):
-    website_data = website.get()
+    website_data = website.get().lower()
     email_data = encyrpt_message.encrypt(email.get())
     password_data = encyrpt_message.encrypt(password.get())
     strength(password_data, label_strength)
