@@ -41,8 +41,15 @@ try:
     with open("data_files.json", 'r') as text1:
         pass
 except FileNotFoundError:
-    x = open("data_files.json", 'w')
-    x.close()
+        with open("data_files.json", 'w') as d123:
+        abc = {
+            "e.g.,": {
+                "email": "",
+                "password": "",
+                "status": ""
+            }
+        }
+        json.dump(abc, d123, indent=4)
 
 
 window = Tk()
