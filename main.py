@@ -42,14 +42,14 @@ try:
         pass
 except FileNotFoundError:
         with open("data_files.json", 'w') as d123:
-        abc = {
-            "e.g.,": {
-                "email": "",
-                "password": "",
-                "status": ""
+            abc = {
+                "e.g.,": {
+                    "email": "",
+                    "password": "",
+                    "status": ""
+                }
             }
-        }
-        json.dump(abc, d123, indent=4)
+            json.dump(abc, d123, indent=4)
 
 
 window = Tk()
